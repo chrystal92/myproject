@@ -13,6 +13,27 @@
 #include <time.h>
 #include <stdlib.h>
 
+
+double price_discount[N];//商家选择的折扣
+double x[N][dim];//选择的初始节点
+double p[N][dim+1];//粒子群
+
+double price_v[N];//折扣的速度
+double v[N][dim];//节点的速度
+double v_all[N][dim+1];
+
+double price_y[N];//折扣的适应值
+double y[N][dim];//节点的适应值
+double y_all[N][dim+1];
+
+double price_pbest[N];//折扣的局部最优
+double pbest[N][dim];//节点的局部最优
+double pbest_all[N][dim+1];
+
+double price_gbest;//折扣的全局最优
+double gbest[dim];//节点的全局最优
+double gbest_all[dim+1];
+
 void cal_fitness()//适应值函数
 {
     for(int i=0;i<N;i++)
