@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		F53FE8411CEAA03A00FBFB34 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F53FE8401CEAA03A00FBFB34 /* main.c */; };
+		F574916B1CEDE388001387E9 /* pso.c in Sources */ = {isa = PBXBuildFile; fileRef = F57491691CEDE388001387E9 /* pso.c */; };
+		F5EADD191CFD797100491356 /* random.c in Sources */ = {isa = PBXBuildFile; fileRef = F5EADD171CFD797100491356 /* random.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,10 @@
 /* Begin PBXFileReference section */
 		F53FE83D1CEAA03A00FBFB34 /* myproject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = myproject; sourceTree = BUILT_PRODUCTS_DIR; };
 		F53FE8401CEAA03A00FBFB34 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		F57491691CEDE388001387E9 /* pso.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pso.c; sourceTree = "<group>"; };
+		F574916A1CEDE388001387E9 /* pso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pso.h; sourceTree = "<group>"; };
+		F5EADD171CFD797100491356 /* random.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = random.c; sourceTree = "<group>"; };
+		F5EADD181CFD797100491356 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = random.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +64,10 @@
 			isa = PBXGroup;
 			children = (
 				F53FE8401CEAA03A00FBFB34 /* main.c */,
+				F57491691CEDE388001387E9 /* pso.c */,
+				F574916A1CEDE388001387E9 /* pso.h */,
+				F5EADD171CFD797100491356 /* random.c */,
+				F5EADD181CFD797100491356 /* random.h */,
 			);
 			path = myproject;
 			sourceTree = "<group>";
@@ -118,6 +128,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F574916B1CEDE388001387E9 /* pso.c in Sources */,
+				F5EADD191CFD797100491356 /* random.c in Sources */,
 				F53FE8411CEAA03A00FBFB34 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +249,7 @@
 				F53FE8461CEAA03A00FBFB34 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
