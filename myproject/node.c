@@ -7,6 +7,7 @@
 //
 
 #include "node.h"
+#include "influence.h"
 #include "pso.h"
 #include "random.h"
 #include "param.h"
@@ -214,11 +215,13 @@ Node transform_graph(double **gra)
     node = retnode;
     for(i=0; i<NumNodes; i++)
     {
+        printf("start id = %d:\n",node->id);
         count = 0;
         for(j=0; j<NumNodes; j++)
-            if(gra[i][j]>0.0)
+            if(gra[j][i]>0.0)
                 count++;
         node->numNeib = count;
+        printf("num of Neibors is %d\n",count);
         
         node->neighbor = (Node*)calloc(count, sizeof(Node));
         node->neibID = (int*)calloc(count, sizeof(int));
@@ -231,22 +234,28 @@ Node transform_graph(double **gra)
         
         k = 0;
         for(j=0; j<NumNodes; j++)
-            if(gra[i][j]>0.0)
+            if(gra[j][i]>0.0)
             {
                 node->neighbor[k] = getNodepointer(retnode, j+1);
                 node->neibID[k] = j+1;
-                node->weight[k] = gra[i][j];
+                printf("ndoe->neibID[%d] is %d\n",k,node->neibID[k]);
+                node->weight[k] = gra[j][i];
+                printf("node->weight[%d] is %f\n",k,node->weight[k]);
                 node->neibInfln[k] = 0;
                 k++;
             }
         
         sum = 0.0;
         for(k=0; k<count; k++)
-            sum += node->weight[k];
+        {
+                sum += node->weight[k];
+        }
         node->sumweight = sum;
+        printf("sumweight is %f\n",node->sumweight);
         //		node->infln = 0;
         //		node->thrhld = 0.0;
-        
+        printf("end id = %d\n",node->id);
+        printf("\n");
         node = node->next;
     }
     

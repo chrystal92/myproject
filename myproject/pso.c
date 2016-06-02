@@ -7,6 +7,7 @@
 //
 
 #include "pso.h"
+#include "influence.h"
 #include "random.h"
 #include "node.h"
 #include "param.h"

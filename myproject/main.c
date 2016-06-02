@@ -14,11 +14,12 @@
 #include "random.h"
 #include "node.h"
 #include "param.h"
+#include "influence.h"
 int main()
 {
     srand((unsigned)time(NULL));
-    init();
-    pso();
+    //init();
+    //pso();
     
     initializeGraph();
     int id_select[10]={0};//随机选取10个节点作为初始传播源
