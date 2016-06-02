@@ -22,8 +22,8 @@ int main()
     srand((unsigned)time(NULL));
     //init();
     //pso();
-    
     initializeGraph();
+    influenceAll(ori_graph,1);
     getchar();
     printf("end!");
     return 0;

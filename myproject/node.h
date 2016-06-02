@@ -33,7 +33,7 @@ extern Node ori_graph;
 extern int *id_select;
 
 extern Node getNodepointer(Node graphnodes, int id);
-extern void influenceOne(Node graphnodes, int id);
+extern void influenceAll(Node graphnodes, int id);
 extern void destroy_graph_nodes(Node graphnodes);
 extern Node copy_graph_nodes(Node graphnodes);
 extern void initializeGraph();
