@@ -12,11 +12,18 @@
 #include <stdlib.h>
 #include "pso.h"
 #include "random.h"
+#include "node.h"
+#include "param.h"
 int main()
 {
     srand((unsigned)time(NULL));
     init();
     pso();
+    
+    initializeGraph();
+    int id_select[10]={0};//随机选取10个节点作为初始传播源
+    select_rand(id_select);
+    getchar();
     printf("end!");
     return 0;
 }

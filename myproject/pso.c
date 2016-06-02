@@ -8,6 +8,8 @@
 
 #include "pso.h"
 #include "random.h"
+#include "node.h"
+#include "param.h"
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
