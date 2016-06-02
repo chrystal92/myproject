@@ -13,8 +13,10 @@
 
 
 // on graph structure
-#define NumNodes 	20
+#define NumNodes 	200  //网络中节点数
+#define NumOri_Nodes 40 //初始投放的节点数
 #define CONNECT_PARAM	0.02
+#define UPPER_INFL 0.2
 
 #define UPPER_WEIGHT	5
 #define LOWER_WEIGHT	1

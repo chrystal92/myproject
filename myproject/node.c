@@ -21,6 +21,7 @@
 #define RECORD_GRAPH
 
 Node ori_graph;
+int *id_select;//随机选取初始传播源
 
 double **initial_graph()
 {
@@ -179,7 +180,7 @@ Node newnode()
     return node;
 }
 
-Node getNodepointer(Node graphnodes, int id)
+Node getNodepointer(Node graphnodes, int id)  //取得指向id节点的指针
 {
     Node node;
     int i;
@@ -196,9 +197,12 @@ Node getNodepointer(Node graphnodes, int id)
 Node transform_graph(double **gra)
 {
     Node node, retnode, tempnode;
-    int i,j,k, count;
+    int i,j,k,r, count;
+    int tempinfln;
     double sum;
+    id_select = (int*) calloc( NumOri_Nodes, sizeof(id_select) );
     
+    id_select = select_rand(id_select);
     retnode = newnode();
     node = retnode;
     
@@ -214,6 +218,13 @@ Node transform_graph(double **gra)
     
     node = retnode;
     for(i=0; i<NumNodes; i++)
+    {for(r=0;r<NumOri_Nodes;r++)
+            if(node->id==id_select[r])
+                node->infln = 1;
+        node=node->next;}
+    
+    node = retnode;
+    for(i=0; i<NumNodes; i++)
     {
         printf("start id = %d:\n",node->id);
         count = 0;
@@ -222,6 +233,11 @@ Node transform_graph(double **gra)
                 count++;
         node->numNeib = count;
         printf("num of Neibors is %d\n",count);
+        
+        printf("infln is %d\n",node->infln);
+        
+        node->thrhld = randg();
+        printf("thrhld is %f\n",node->thrhld);
         
         node->neighbor = (Node*)calloc(count, sizeof(Node));
         node->neibID = (int*)calloc(count, sizeof(int));
@@ -233,28 +249,29 @@ Node transform_graph(double **gra)
         //++++++++
         
         k = 0;
+        tempinfln=0;
         for(j=0; j<NumNodes; j++)
             if(gra[j][i]>0.0)
             {
                 node->neighbor[k] = getNodepointer(retnode, j+1);
                 node->neibID[k] = j+1;
-                printf("ndoe->neibID[%d] is %d\n",k,node->neibID[k]);
-                node->weight[k] = gra[j][i];
-                printf("node->weight[%d] is %f\n",k,node->weight[k]);
-                node->neibInfln[k] = 0;
+                printf("node->neibID[%d] is %d\t",k,node->neibID[k]);
+                node->weight[k] = gra[j][i] * UPPER_INFL;
+                printf("node->weight[%d] is %f\t",k,node->weight[k]);
+                node->neibInfln[k] = node->neighbor[k]->infln;
+                printf("this neighbor is %d\n",node->neighbor[k]->infln);
                 k++;
             }
         
         sum = 0.0;
         for(k=0; k<count; k++)
         {
+            if(node->neibInfln[k]==1)
                 sum += node->weight[k];
         }
         node->sumweight = sum;
-        printf("sumweight is %f\n",node->sumweight);
-        //		node->infln = 0;
-        //		node->thrhld = 0.0;
-        printf("end id = %d\n",node->id);
+            printf("sumweight of id=%d is %f\n",node->id,node->sumweight);
+        printf("＃＃＃＃＃＃＃＃end id = %d\n",node->id);
         printf("\n");
         node = node->next;
     }
@@ -278,6 +295,7 @@ Node transform_graph(double **gra)
     
     return retnode;
 }
+
 
 void influenceOne(Node graphnodes, int id)
 {

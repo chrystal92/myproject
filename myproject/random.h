@@ -11,11 +11,12 @@
 
 extern double randd();
 extern int randi(int k);
+extern double randg();
 extern double random_uniform(double a, double b);
 extern int check_threshold( double th );
+extern int* select_rand(int *id_set);
 extern double generate_weight();
 extern int Rand(int X,int Y);
-extern void select_rand(int *id_set);
 
 extern double getSecs();
 

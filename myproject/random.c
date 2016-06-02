@@ -26,6 +26,13 @@ double randd()
 int randi(int k)
 {return (int)(randd()*k+0.5);}
 
+double randg()
+{
+    double r = (double)rand()/RAND_MAX;
+    if(r>=0.8)
+        r = r-UPPER_INFL;
+    return r;
+}   //生成0，0.8之间的随机初始阈值
 double ddntime;
 
 double random_uniform(double a, double b)      // Uniform Distribution
@@ -45,6 +52,32 @@ int check_threshold( double th )
         return 1;
     else
         return 0;
+}
+
+int* select_rand(int *id_set)  //选取随机数
+{
+    int arr[NumNodes];
+    int i;
+    int r;
+    int temp;
+    id_set = (int*) calloc( NumOri_Nodes, sizeof(id_set) );
+    srand((unsigned)time(NULL));
+    for(i=0;i<NumNodes;i++) arr[i]=i+1;//将数组赋值1~NumNodes
+    for(i=0;i<NumNodes;i++)
+    {
+        r=Rand(0,NumNodes-1);
+        temp=arr[i];
+        arr[i]=arr[r];
+        arr[r]=temp;
+    }//数组乱序
+    for(i=1;i<=NumOri_Nodes;i++)
+    {
+        id_set[i-1]=arr[i-1];
+        printf("id_select[%d] is %3d\n",i-1,id_set[i-1]);
+    }
+    printf("\n");
+    
+    return id_set;
 }
 
 double generate_weight()
@@ -67,32 +100,6 @@ int Rand(int X,int Y)     //生成x到y之间的随机数
     
 }
 
-void select_rand(int *id_set)  //选取随机数
-{
-    int arr[NumNodes];
-    int i;
-    int r;
-    int temp;
-    id_set = (int*) calloc( 10, sizeof(id_set) );
-    srand((unsigned)time(NULL));
-    for(i=0;i<NumNodes;i++) arr[i]=i;//将数组赋值0~NumNodes-1
-    for(i=0;i<NumNodes;i++)
-    {
-        r=Rand(0,NumNodes-1);
-        temp=arr[i];
-        arr[i]=arr[r];
-        arr[r]=temp;
-    }//数组乱序
-    for(i=1;i<=10;i++)
-    {
-        id_set[i-1]=arr[i-1];
-        //printf("%3d ",arr[i-1]);
-        printf("%3d",id_set[i-1]);
-        //if(i%10==0)
-        //printf("\n");
-    }
-    printf("\n");
-}
 
 double getSecs( )    //得到总的cpu时间
 {

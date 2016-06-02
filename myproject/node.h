@@ -30,7 +30,7 @@ struct NodeType
 
 
 extern Node ori_graph;
-
+extern int *id_select;
 
 extern Node getNodepointer(Node graphnodes, int id);
 extern void influenceOne(Node graphnodes, int id);
