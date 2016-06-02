@@ -73,10 +73,8 @@ int* select_rand(int *id_set)  //选取随机数
     for(i=1;i<=NumOri_Nodes;i++)
     {
         id_set[i-1]=arr[i-1];
-        printf("id_select[%d] is %3d\n",i-1,id_set[i-1]);
+        //printf("id_select[%d] is %3d\n",i-1,id_set[i-1]);
     }
-    printf("\n");
-    
     return id_set;
 }
 

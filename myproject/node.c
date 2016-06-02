@@ -226,18 +226,13 @@ Node transform_graph(double **gra)
     node = retnode;
     for(i=0; i<NumNodes; i++)
     {
-        printf("start id = %d:\n",node->id);
         count = 0;
         for(j=0; j<NumNodes; j++)
             if(gra[j][i]>0.0)
                 count++;
         node->numNeib = count;
-        printf("num of Neibors is %d\n",count);
-        
-        printf("infln is %d\n",node->infln);
         
         node->thrhld = randg();
-        printf("thrhld is %f\n",node->thrhld);
         
         node->neighbor = (Node*)calloc(count, sizeof(Node));
         node->neibID = (int*)calloc(count, sizeof(int));
@@ -255,11 +250,11 @@ Node transform_graph(double **gra)
             {
                 node->neighbor[k] = getNodepointer(retnode, j+1);
                 node->neibID[k] = j+1;
-                printf("node->neibID[%d] is %d\t",k,node->neibID[k]);
+                
                 node->weight[k] = gra[j][i] * UPPER_INFL;
-                printf("node->weight[%d] is %f\t",k,node->weight[k]);
+                
                 node->neibInfln[k] = node->neighbor[k]->infln;
-                printf("this neighbor is %d\n",node->neighbor[k]->infln);
+                
                 k++;
             }
         
@@ -270,9 +265,7 @@ Node transform_graph(double **gra)
                 sum += node->weight[k];
         }
         node->sumweight = sum;
-            printf("sumweight of id=%d is %f\n",node->id,node->sumweight);
-        printf("＃＃＃＃＃＃＃＃end id = %d\n",node->id);
-        printf("\n");
+        
         node = node->next;
     }
     
