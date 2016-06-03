@@ -264,6 +264,8 @@ Node transform_graph(double **gra)
                 sum += node->weight[k];}
         node->sumweight = sum;
         printf("sumweight is %f\n",node->sumweight);
+        node->thrhld += node->sumweight;
+        printf("update thrhld is %f\n",node->thrhld);
         printf("********end id %d\n\n",node->id);
         node = node->next;
     }
@@ -299,17 +301,21 @@ void influenceAll(Node graphnodes, int id)
             if(infln_node->infln == 1)
             printf("ddnError: id %d Have been influenced!\n",infln_node->id);
             else
-            {infln_node->thrhld = infln_node->thrhld + infln_node->sumweight;
-                printf("update thrhld of id %d is %f\n",infln_node->id,infln_node->thrhld);
-            }
-            if(infln_node->thrhld >= ori_price)
-                infln_node->infln = 1;
-            for(int k=0; k<infln_node->numNeib; k++)
-            {
-            temp = infln_node->whereNeibPutMe[k];
-            infln_node->neighbor[k]->sumweight += infln_node->neighbor[k]->weight[temp];
-            printf("update sumweight of neib[%d] is %f\n",k,infln_node->neighbor[k]->sumweight);
-            }
+                if(infln_node->thrhld >= ori_price)
+                {
+                    infln_node->infln = 1;
+                    printf("update id %d is influenced!\n",infln_node->id);
+                    for(int k=0; k<infln_node->numNeib; k++)
+                    {
+                        temp = infln_node->whereNeibPutMe[k];
+                        infln_node->neighbor[k]->sumweight += infln_node->neighbor[k]->weight[temp];
+                        printf("update sumweight of neib[%d] is %f\n",k,infln_node->neighbor[k]->sumweight);
+                        infln_node->neighbor[k]->thrhld += infln_node->neighbor[k]->sumweight;
+                        printf("update thrhld of neib[%d] is %f\n",k,infln_node->neighbor[k]->thrhld);
+                    }
+                }
+            else
+                printf("id %d thrhld is %f\n",infln_node->id,infln_node->thrhld);
             infln_node = infln_node->next;
         }
         printf("round %d end!!!\n\n",cur+1);
