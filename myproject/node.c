@@ -344,11 +344,8 @@ int influenceAll(Node graphnodes, int id)
         
         bef_node = retbef_node;
         aft_node = retaft_node;
-        destroy_graph_nodes(bef_node);
-        
         bef_node = copy_graph_nodes(aft_node);
         retbef_node = bef_node;
-        
         destroy_graph_nodes(aft_node);
         
         cur++;

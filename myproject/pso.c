@@ -24,21 +24,18 @@ double price_v[N];//折扣的速度
 double v[N][dim];//节点的速度
 double v_all[N][dim+1];
 
-double price_y[N];//折扣的适应值
-double y[N][dim];//节点的适应值
-double y_all[N][dim+1];
+double y[N]; //适应值
+double pbest[N]; //局部最优值
+double gbest; //全局最优值
 
-double price_pbest[N];//折扣的局部最优
-double pbest[N][dim];//节点的局部最优
-double pbest_all[N][dim+1];
+Node pso_node;
 
-double price_gbest;//折扣的全局最优
-double gbest[dim];//节点的全局最优
-double gbest_all[dim+1];
-
-
-void cal_fitness()//适应值函数
+void cal_fitness(Node graphnodes)//适应值函数
 {
+    Node node;
+    node = getNodepointer(graphnodes,1);
+    for(int i=0;i<N;i++)
+    y[i] = influenceAll(node, 1);
 }
 
 double MAX(double a,double b)
@@ -83,28 +80,13 @@ void init()
             for(int k=0;k<dim;k++)
                 v_all[f][k+1]=v[f][k];
     }
-    /*-----end-----位置赋值和速度初始化-----end-----*/
-    
-    cal_fitness();
-    /*-----end-----初始化适应值-----end-----*/
-    
+
+    cal_fitness(ori_graph); //初始化适应值
+    for(int i=0;i<N;i++)   //初始化局部最优
+        pbest[i] = y[i];
+    gbest = pbest[0];
     for(int i=0;i<N;i++)
-        for(int j=0;j<dim+1;j++)
-        {pbest_all[i][j]=y_all[i][j];
-            //printf("initial pbest_all[%d][%d] is %f\n",i,j,pbest_all[i][j]);
-        }
-    printf("\n");
-    /*-----end-----初始化局部最优-----end-----*/
-    
-    for(int j=0;j<dim+1;j++)
-        gbest_all[j] = y_all[0][j];
-    for(int i=0;i<N;i++)
-        for(int j=0;j<dim+1;j++)
-            gbest_all[j]=MAX(gbest_all[j],y_all[i][j]);
-    for(int j=0;j<dim+1;j++)
-        //printf("initial gbest_all[%d] is %f\n",j,gbest_all[j]);
-    printf("\n");
-    /*-----end-----初始化全局最优-----end-----*/
+        gbest = MAX(gbest,pbest[i]); //初始化全局最优
 }
 
 void pso()

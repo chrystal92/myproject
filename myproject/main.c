@@ -24,7 +24,6 @@ int main()
     //init();
     //pso();
     printf("sum number of influenced nodes is %d",influenceAll(ori_graph,1));
-    //cal_fitness2(ori_graph,1);
     getchar();
     printf("end!");
     return 0;
