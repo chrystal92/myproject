@@ -16,7 +16,6 @@
 #include <time.h>
 #include <stdlib.h>
 
-
 double price_discount[N];//商家选择的折扣
 double x[N][dim];//选择的初始节点
 double p[N][dim+1];//粒子群
@@ -37,13 +36,9 @@ double price_gbest;//折扣的全局最优
 double gbest[dim];//节点的全局最优
 double gbest_all[dim+1];
 
+
 void cal_fitness()//适应值函数
 {
-    for(int i=0;i<N;i++)
-    {
-        for(int j=0;j<dim+1;j++)
-            y_all[i][j]=p[i][j]*sin(10*PI*p[i][j])+2;
-    }
 }
 
 double MAX(double a,double b)
@@ -56,17 +51,20 @@ double MAX(double a,double b)
 
 void init()
 {
-    //随机生成*price_discount *price_v和**x **v中各个值
+    Node node;
     for(int i=0;i<N;i++)
     {
-        price_discount[i]=randd();
+        node = getNodepointer(ori_graph,1);
+        price_discount[i]=ori_price;//初始折扣赋给price_discount
+        printf("price_discount[%d] is %f\t",i,price_discount[i]);
         price_v[i]=randd()*Vmax;
 
         for(int j=0;j<dim;j++)
         {
-            x[i][j]=randd();
-            
+            x[i][j]=(double)node->infln; //初始影响状态赋给x
+            printf("x[%d][%d] is %f\n",i,j,x[i][j]);
             v[i][j]=randd()*Vmax;
+            node = node->next;
         }
     }
     
@@ -85,7 +83,7 @@ void init()
             for(int k=0;k<dim;k++)
                 v_all[f][k+1]=v[f][k];
     }
-    /*-----end-----初始化位置和速度-----end-----*/
+    /*-----end-----位置赋值和速度初始化-----end-----*/
     
     cal_fitness();
     /*-----end-----初始化适应值-----end-----*/
@@ -93,7 +91,7 @@ void init()
     for(int i=0;i<N;i++)
         for(int j=0;j<dim+1;j++)
         {pbest_all[i][j]=y_all[i][j];
-            printf("initial pbest_all[%d][%d] is %f\n",i,j,pbest_all[i][j]);
+            //printf("initial pbest_all[%d][%d] is %f\n",i,j,pbest_all[i][j]);
         }
     printf("\n");
     /*-----end-----初始化局部最优-----end-----*/
@@ -104,7 +102,7 @@ void init()
         for(int j=0;j<dim+1;j++)
             gbest_all[j]=MAX(gbest_all[j],y_all[i][j]);
     for(int j=0;j<dim+1;j++)
-        printf("initial gbest_all[%d] is %f\n",j,gbest_all[j]);
+        //printf("initial gbest_all[%d] is %f\n",j,gbest_all[j]);
     printf("\n");
     /*-----end-----初始化全局最优-----end-----*/
 }
@@ -120,14 +118,14 @@ void pso()
         {
             for(int j=0;j<dim+1;j++)
             {v_all[i][j]=w*v_all[i][j]+c1*randd()*(pbest_all[i][j]-p[i][j])+c2*randd()*(gbest_all[j]-p[i][j]);
-                //if(v_all[i][j]>Vmax)
-                //v_all[i][j]=Vmax;
+                if(v_all[i][j]>Vmax)
+                    v_all[i][j]=Vmax;
                 p[i][j]+=v_all[i][j];
-                /*if(p[i][j]<-1)
-                 p[i][j]=-1;
-                 if(p[i][j]>2)
-                 p[i][j]=2;//++++++++++++这里可以设置x的范围，进一步思考!!!!!!
-                 */
+                if(p[i][j]<=0)
+                 p[i][j]=0;
+                 if(p[i][j]>=1)
+                 p[i][j]=1;//++++++++++++这里可以设置x的范围，进一步思考!!!!!!
+                printf("update round %d , p[%d][%d] is %f\n",g,i,j,p[i][j]);
             }
         }//更新一次v_all和p
         cal_fitness();
@@ -136,7 +134,7 @@ void pso()
         {
             for(int k=0;k<dim+1;k++)
             {pbest_all[i][k]=MAX(pbest_all[i][k],y_all[i][k]);
-                printf("update round %d of pbest_all[%d][%d] is %f\n",g+1,i,k,pbest_all[i][k]);
+                //printf("update round %d of pbest_all[%d][%d] is %f\n",g+1,i,k,pbest_all[i][k]);
                 gbest_all[k]=MAX(gbest_all[k],pbest_all[i][k]);
             }
         }

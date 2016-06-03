@@ -28,9 +28,9 @@ struct NodeType
 };
 
 
-
 extern Node ori_graph;
 extern int *id_select;
+extern double ori_price;
 
 extern Node getNodepointer(Node graphnodes, int id);
 extern void influenceAll(Node graphnodes, int id);
@@ -39,6 +39,7 @@ extern Node copy_graph_nodes(Node graphnodes);
 extern void initializeGraph();
 extern void loadGraph();
 extern void destroy_graph( double **gra );
+extern void cal_fitness2(Node graphnodes, int id);
 
 
 

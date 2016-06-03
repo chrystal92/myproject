@@ -22,6 +22,7 @@
 
 Node ori_graph;
 int *id_select;//随机选取初始传播源
+double ori_price = 0.6;
 
 double **initial_graph()
 {
@@ -291,7 +292,6 @@ Node transform_graph(double **gra)
 void influenceAll(Node graphnodes, int id)
 {
     Node infln_node;
-    double ori_price = 0.6;
     int cur,temp;
     for(cur=0;cur<CHECKNUM;cur++)
     {
@@ -456,4 +456,15 @@ void loadGraph()
     
     destroy_graph(gra);
 }
-
+void cal_fitness2(Node graphnodes, int id)
+{
+    Node node = getNodepointer(graphnodes, id);
+    int count1=0;
+    for(int i=0;i<NumNodes;i++)
+    {
+        if(node->infln == 1)
+            count1++;
+        node=node->next;
+    }
+    printf("count1 is %d",count1);
+}

@@ -20,10 +20,11 @@
 int main()
 {
     srand((unsigned)time(NULL));
+    initializeGraph();
     //init();
     //pso();
-    initializeGraph();
     influenceAll(ori_graph,1);
+    cal_fitness2(ori_graph,1);
     getchar();
     printf("end!");
     return 0;

@@ -13,10 +13,10 @@
 
 
 // on graph structure
-#define NumNodes 	20  //网络中节点数
-#define NumOri_Nodes 3 //初始投放的节点数
-#define CHECKNUM 10  //影响传播效果的检查次数
-#define CONNECT_PARAM	0.02
+#define NumNodes 	1000  //网络中节点数
+#define NumOri_Nodes 100 //初始投放的节点数
+#define CHECKNUM 1000  //影响传播效果的检查次数
+#define CONNECT_PARAM	0.002
 #define UPPER_INFL 0.2
 
 #define UPPER_WEIGHT	5

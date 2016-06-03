@@ -12,9 +12,9 @@
 #define PI 3.14159265
 #define N 5  //粒子群规模
 #define G 2  //粒子群迭代次数
-#define dim 3  //粒子维度
+#define dim NumNodes  //粒子维度
 
-#define Vmax 0.4
+#define Vmax 5
 #define Vmin -0.4
 
 #define c1 2
