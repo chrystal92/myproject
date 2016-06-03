@@ -33,13 +33,13 @@ extern int *id_select;
 extern double ori_price;
 
 extern Node getNodepointer(Node graphnodes, int id);
-extern void influenceAll(Node graphnodes, int id);
+extern int influenceAll(Node graphnodes, int id);
 extern void destroy_graph_nodes(Node graphnodes);
 extern Node copy_graph_nodes(Node graphnodes);
 extern void initializeGraph();
 extern void loadGraph();
 extern void destroy_graph( double **gra );
-extern void cal_fitness2(Node graphnodes, int id);
+extern int countNum1(Node graphnodes, int id);
 
 
 

@@ -289,38 +289,73 @@ Node transform_graph(double **gra)
     return retnode;
 }
 
-void influenceAll(Node graphnodes, int id)
+int influenceAll(Node graphnodes, int id)
 {
-    Node infln_node;
-    int cur,temp;
-    for(cur=0;cur<CHECKNUM;cur++)
+    Node bef_node,retbef_node,retaft_node;
+    int cur=0,sum_bef,sum_aft,temp;
+    
+    sum_bef = countNum1(graphnodes,1);
+    sum_aft = sum_bef+1;
+    bef_node = getNodepointer(graphnodes, id);//上一个时间段截止时的状态记录
+    retbef_node = bef_node;
+    
+    while(1)
     {
-        infln_node = getNodepointer(graphnodes, id);
+        if(sum_aft < sum_bef)
+        {
+            printf("program failed....please check bug!!!\n");
+            break;
+        }
+        if(sum_aft == sum_bef)
+            break;
+        
+        Node aft_node;
+        aft_node = copy_graph_nodes(bef_node);//修改本时间段内的状态
+        retaft_node = aft_node;
+        
+        sum_bef = countNum1(bef_node,1);
+        sum_aft = sum_bef;
+        
         for(int i=0;i<NumNodes;i++)
         {
-            if(infln_node->infln == 1)
-            printf("ddnError: id %d Have been influenced!\n",infln_node->id);
-            else
-                if(infln_node->thrhld >= ori_price)
+            if(bef_node->infln == 1)
+                printf("ddnAlarm: id %d have been influenced!\n",bef_node->id);
+            else if (bef_node->thrhld >= ori_price)
+            {
+                aft_node->infln = 1;
+                sum_aft ++;
+                printf("update id %d is influenced!\n",aft_node->id);
+                for(int k=0; k<aft_node->numNeib; k++)
                 {
-                    infln_node->infln = 1;
-                    printf("update id %d is influenced!\n",infln_node->id);
-                    for(int k=0; k<infln_node->numNeib; k++)
-                    {
-                        temp = infln_node->whereNeibPutMe[k];
-                        infln_node->neighbor[k]->sumweight += infln_node->neighbor[k]->weight[temp];
-                        printf("update sumweight of neib[%d] is %f\n",k,infln_node->neighbor[k]->sumweight);
-                        infln_node->neighbor[k]->thrhld += infln_node->neighbor[k]->sumweight;
-                        printf("update thrhld of neib[%d] is %f\n",k,infln_node->neighbor[k]->thrhld);
-                    }
+                    temp = aft_node->whereNeibPutMe[k];
+                    aft_node->neighbor[k]->sumweight += aft_node->neighbor[k]->weight[temp];
+                    printf("update sumweight of neib[%d] is %f\n",k,aft_node->neighbor[k]->sumweight);
+                    aft_node->neighbor[k]->thrhld += aft_node->neighbor[k]->sumweight;
+                    printf("update thrhld of neib[%d] is %f\n",k,aft_node->neighbor[k]->thrhld);
                 }
+            }
             else
-                printf("id %d thrhld is %f\n",infln_node->id,infln_node->thrhld);
-            infln_node = infln_node->next;
+                printf("id %d thrhld is %f,not enough to let him buy!\n",bef_node->id,bef_node->thrhld);
+            
+            bef_node = bef_node->next;
+            aft_node = aft_node->next;
         }
-        printf("round %d end!!!\n\n",cur+1);
+        printf("check round %d end!\n",cur+1);
+        
+        bef_node = retbef_node;
+        aft_node = retaft_node;
+        destroy_graph_nodes(bef_node);
+        
+        bef_node = copy_graph_nodes(aft_node);
+        retbef_node = bef_node;
+        
+        destroy_graph_nodes(aft_node);
+        
+        cur++;
     }
+    return sum_aft;
 }
+
 void destroy_graph_nodes(Node graphnodes)
 {
     Node node, temp_node;
@@ -371,7 +406,6 @@ Node copynode(Node ori_node)	// do not copy "->next" or "->neighbor[i]"
     
     for(i=0; i<node->numNeib; i++)
     {
-        //		node->neighbor[i] = ori_node->neighbor[i];
         node->neibID[i] = ori_node->neibID[i];
         node->weight[i] = ori_node->weight[i];
         node->neibInfln[i] = ori_node->neibInfln[i];
@@ -382,7 +416,7 @@ Node copynode(Node ori_node)	// do not copy "->next" or "->neighbor[i]"
     return node;
 }
 
-Node copy_graph_nodes(Node graphnodes)
+Node copy_graph_nodes(Node graphnodes)  //返回的是复制后头节点的位置
 {
     Node retgraphnodes, node, ori_node, old_node;
     int i;
@@ -456,7 +490,7 @@ void loadGraph()
     
     destroy_graph(gra);
 }
-void cal_fitness2(Node graphnodes, int id)
+int countNum1(Node graphnodes, int id)
 {
     Node node = getNodepointer(graphnodes, id);
     int count1=0;
@@ -466,5 +500,6 @@ void cal_fitness2(Node graphnodes, int id)
             count1++;
         node=node->next;
     }
-    printf("count1 is %d",count1);
+    printf("count1 is %d\n",count1);
+    return count1;
 }
