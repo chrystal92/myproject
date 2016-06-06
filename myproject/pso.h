@@ -10,9 +10,9 @@
 #define pso_h
 
 #define PI 3.14159265
-#define N 5  //粒子群规模
-#define G 2  //粒子群迭代次数
-#define dim NumNodes  //粒子维度
+#define N 50  //粒子群规模
+#define G 5  //粒子群迭代次数
+#define dim 20 //粒子维度
 
 #define Vmax 5
 #define Vmin -0.4
@@ -22,9 +22,21 @@
 #define w1 0.9
 #define w2 0.4
 
+extern double price_discount[N];
+extern double x[N][dim];
+extern double p[N][dim+1];
+
+extern double price_v[N];
+extern double v[N][dim];
+extern double v_all[N][dim+1];
+
+extern double y[N];
+extern double pbest[N];
+extern double gbest;
+
 extern double randd();
 extern int randi(int k);
-extern void cal_fitness();
+extern double* cal_fitness();
 extern double MAX(double a,double b);
 extern void init();
 extern void pso();

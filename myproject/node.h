@@ -30,10 +30,9 @@ struct NodeType
 
 extern Node ori_graph;
 extern int *id_select;
-extern double ori_price;
 
 extern Node getNodepointer(Node graphnodes, int id);
-extern int influenceAll(Node graphnodes, int id);
+extern int influenceAll(Node graphnodes, int id, double ori_price);
 extern void destroy_graph_nodes(Node graphnodes);
 extern Node copy_graph_nodes(Node graphnodes);
 extern void initializeGraph();

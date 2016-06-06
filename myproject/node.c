@@ -22,7 +22,6 @@
 
 Node ori_graph;
 int *id_select;//随机选取初始传播源
-double ori_price = 0.6;
 
 double **initial_graph()
 {
@@ -289,7 +288,7 @@ Node transform_graph(double **gra)
     return retnode;
 }
 
-int influenceAll(Node graphnodes, int id)
+int influenceAll(Node graphnodes, int id, double ori_price)
 {
     Node bef_node,retbef_node,retaft_node;
     int cur=0,sum_bef,sum_aft,temp;

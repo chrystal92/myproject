@@ -21,9 +21,8 @@ int main()
 {
     srand((unsigned)time(NULL));
     initializeGraph();
-    //init();
-    //pso();
-    printf("sum number of influenced nodes is %d",influenceAll(ori_graph,1));
+    init();
+    pso();
     getchar();
     printf("end!");
     return 0;
