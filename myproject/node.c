@@ -7,10 +7,10 @@
 //
 
 #include "node.h"
-#include "influence.h"
 #include "pso.h"
 #include "random.h"
 #include "param.h"
+
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
@@ -226,17 +226,17 @@ Node transform_graph(double **gra)
     node = retnode;
     for(i=0; i<NumNodes; i++)
     {
-        printf("start id = %d:\n",node->id);
+        //printf("start id = %d:\n",node->id);
         count = 0;
         for(j=0; j<NumNodes; j++)
             if(gra[j][i]>0.0)
                 count++;
         node->numNeib = count;
-        printf("num of Neibors is %d\n",count);
-        printf("infln is %d\n",node->infln);
+        //printf("num of Neibors is %d\n",count);
+        //printf("infln is %d\n",node->infln);
         
         node->thrhld = randg();
-        printf("thrhld is %f\n",node->thrhld);
+        //printf("thrhld is %f\n",node->thrhld);
         
         node->neighbor = (Node*)calloc(count, sizeof(Node));
         node->neibID = (int*)calloc(count, sizeof(int));
@@ -251,11 +251,11 @@ Node transform_graph(double **gra)
             {
                 node->neighbor[k] = getNodepointer(retnode, j+1);
                 node->neibID[k] = j+1;
-                printf("node->neibID[%d] is %d\t",k,node->neibID[k]);
+                //printf("node->neibID[%d] is %d\t",k,node->neibID[k]);
                 node->weight[k] = gra[j][i] * UPPER_INFL;
-                printf("node->weight[%d] is %f\t",k,node->weight[k]);
+                //printf("node->weight[%d] is %f\t",k,node->weight[k]);
                 node->neibInfln[k] = node->neighbor[k]->infln;
-                printf("this neighbor is %d\n",node->neighbor[k]->infln);
+                //printf("this neighbor is %d\n",node->neighbor[k]->infln);
                 k++;
             }
         sum = 0.0;
@@ -263,10 +263,10 @@ Node transform_graph(double **gra)
             if(node->neibInfln[k]==1)
                 sum += node->weight[k];}
         node->sumweight = sum;
-        printf("sumweight is %f\n",node->sumweight);
+        //printf("sumweight is %f\n",node->sumweight);
         node->thrhld += node->sumweight;
-        printf("update thrhld is %f\n",node->thrhld);
-        printf("********end id %d\n\n",node->id);
+        //printf("update thrhld is %f\n",node->thrhld);
+        //printf("********end id %d\n\n",node->id);
         node = node->next;
     }
     //+++++++++
@@ -328,9 +328,9 @@ int influenceAll(Node graphnodes, int id, double ori_price)
                 {
                     temp = aft_node->whereNeibPutMe[k];
                     aft_node->neighbor[k]->sumweight += aft_node->neighbor[k]->weight[temp];
-                    printf("update sumweight of neib[%d] is %f\n",k,aft_node->neighbor[k]->sumweight);
+                    //printf("update sumweight of neib[%d] is %f\n",k,aft_node->neighbor[k]->sumweight);
                     aft_node->neighbor[k]->thrhld += aft_node->neighbor[k]->sumweight;
-                    printf("update thrhld of neib[%d] is %f\n",k,aft_node->neighbor[k]->thrhld);
+                    //printf("update thrhld of neib[%d] is %f\n",k,aft_node->neighbor[k]->thrhld);
                 }
             }
             else
@@ -339,7 +339,8 @@ int influenceAll(Node graphnodes, int id, double ori_price)
             bef_node = bef_node->next;
             aft_node = aft_node->next;
         }
-        printf("check round %d end!\n",cur+1);
+        //printf("check round %d end!\n",cur+1);
+        //printf("\n");
         
         bef_node = retbef_node;
         aft_node = retaft_node;
@@ -496,6 +497,6 @@ int countNum1(Node graphnodes, int id)
             count1++;
         node=node->next;
     }
-    printf("count1 is %d\n",count1);
+    //printf("count1 is %d\n",count1);
     return count1;
 }

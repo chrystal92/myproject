@@ -14,7 +14,7 @@
 #define G 5  //粒子群迭代次数
 #define dim 20 //粒子维度
 
-#define Vmax 5
+#define Vmax 0.5
 #define Vmin -0.4
 
 #define c1 2

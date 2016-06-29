@@ -14,15 +14,14 @@
 #include "random.h"
 #include "node.h"
 #include "param.h"
-#include "influence.h"
 
 
 int main()
 {
     srand((unsigned)time(NULL));
-    initializeGraph();
-    init();
-    pso();
+    initializeGraph(); //生成网络结构
+    init(); //初始化结果
+    pso(); //粒子群迭代
     getchar();
     printf("end!");
     return 0;

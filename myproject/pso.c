@@ -7,7 +7,6 @@
 //
 
 #include "pso.h"
-#include "influence.h"
 #include "random.h"
 #include "node.h"
 #include "param.h"
@@ -69,13 +68,13 @@ void init()
     {
         node = getNodepointer(ori_graph,1);
         price_discount[i]=ori_price[0];//初始折扣赋给price_discount
-        printf("price_discount[%d] is %f\t",i,price_discount[i]);
+        //printf("price_discount[%d] is %f\t",i,price_discount[i]);
         price_v[i]=randd()*Vmax;
 
         for(int j=0;j<dim;j++)
         {
             x[i][j]=(double)node->infln; //初始影响状态赋给x
-            printf("x[%d][%d] is %f\n",i,j,x[i][j]);
+            //printf("x[%d][%d] is %f\n",i,j,x[i][j]);
             v[i][j]=randd()*Vmax;
             node = node->next;
         }
@@ -99,16 +98,17 @@ void init()
     node = getNodepointer(ori_graph, 1);
     for(int i=0;i<N;i++)
     {
-        y[i] = influenceAll(node, 1, ori_price[0]);  //初始化局部最优
-        pbest[i] = y[i];
+        y[i] = influenceAll(node, 1, ori_price[0]);
+        pbest[i] = y[i]; //初始化局部最优
     }
     gbest = pbest[0]; //初始化全局最优
 }
 
 void pso()
 {
-    int i,g;
+    int i,g,tag=1,count1=0,rest1=0;
     double w;
+    double max_x=0;
     Node node,retnode;
     for(g=0;g<G;g++)//进行G轮迭代
     {
@@ -116,16 +116,56 @@ void pso()
         for(i=0;i<N;i++)
         {
             for(int j=0;j<dim+1;j++)
-            {v_all[i][j]=w*v_all[i][j]+c1*randd()*(pbest[i]-p[i][j])+c2*randd()*(gbest-p[i][j]);
+            {
+                v_all[i][j]=w*v_all[i][j]+c1*randd()*(pbest[i]-p[i][j])+c2*randd()*(gbest-p[i][j]);
                 if(v_all[i][j]>Vmax)
                     v_all[i][j]=Vmax;
+                if(v_all[i][j]<Vmin)
+                    v_all[i][j]=Vmin; //速度约束
+                
                 p[i][j]+=v_all[i][j];
                 if(p[i][j]<=0)
-                 p[i][j]=0;
-                 if(p[i][j]>=1)
-                 p[i][j]=1;//++++++++++++这里可以设置x的范围，进一步思考!!!!!!
-                printf("update round %d , p[%d][%d] is %f\n",g,i,j,p[i][j]);
+                    p[i][j]=0;
+                if(p[i][j]>=1)
+                    p[i][j]=1; //粒子群约束
+                //printf("update round %d , p[%d][%d] is %f\n",g,i,j,p[i][j]);
             }
+            for(int j=1;j<dim+1;j++)
+            {
+                if(p[i][j] == 1)
+                    count1++;
+                rest1 = NumOri_Nodes - count1; //还需选出几个1
+            }
+            
+            for(int k=0;k<rest1;k++)
+            {
+                for(int j=1;j<dim+1;j++)
+                {
+                    if(p[i][j]>0 && p[i][j]<1)
+                    {
+                        max_x = p[i][j];
+                        tag = j;
+                        break;
+                    }
+                }
+                for(int j=1;j<dim+1;j++)
+                {
+                    if(p[i][j]>0 && p[i][j]<1)
+                    {
+                        max_x = MAX(max_x, p[i][j]);
+                        if(max_x == p[i][j])
+                            tag = j;
+                    }
+                }
+                p[i][tag] = 1; //选出最接近1的值，另其为1
+            }
+            
+            for(int j=1;j<dim+1;j++)
+            {
+                if(p[i][j] != 1)
+                    p[i][j] = 0;
+            } //对于不是1的值，均另其为0
+            
         }//更新一次v_all和p
         
         node = copy_graph_nodes(ori_graph);
@@ -148,7 +188,9 @@ void pso()
             pbest[i]=MAX(pbest[i],y[i]);
             gbest=MAX(gbest,pbest[i]);
         }
-        printf("update round %d of gbest is %f\n",g+1,gbest);
-        printf("\n");
+        //printf("update round %d of gbest is %f\n",g+1,gbest);
+        //printf("\n");
     }
+    printf("\n");
+    printf("final result:gbest is %f\n",gbest);
 }

@@ -9,12 +9,12 @@
 #define _CRT_SECURE_NO_DEPRECATE 1
 
 #include "pso.h"
-#include "influence.h"
 #include "random.h"
 #include "node.h"
 #include "param.h"
-#include <stdio.h>
 #include "string.h"
+
+#include <stdio.h>
 #include <math.h>
 #include <time.h>
 #include <stdlib.h>

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F53FE8411CEAA03A00FBFB34 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = F53FE8401CEAA03A00FBFB34 /* main.c */; };
 		F56F04741CFFC38300381102 /* node.c in Sources */ = {isa = PBXBuildFile; fileRef = F56F04721CFFC38300381102 /* node.c */; };
-		F56F04781CFFDA3300381102 /* influence.c in Sources */ = {isa = PBXBuildFile; fileRef = F56F04761CFFDA3300381102 /* influence.c */; };
 		F574916B1CEDE388001387E9 /* pso.c in Sources */ = {isa = PBXBuildFile; fileRef = F57491691CEDE388001387E9 /* pso.c */; };
 		F5EADD191CFD797100491356 /* random.c in Sources */ = {isa = PBXBuildFile; fileRef = F5EADD171CFD797100491356 /* random.c */; };
 /* End PBXBuildFile section */
@@ -32,8 +31,6 @@
 		F56F04721CFFC38300381102 /* node.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = node.c; sourceTree = "<group>"; };
 		F56F04731CFFC38300381102 /* node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = node.h; sourceTree = "<group>"; };
 		F56F04751CFFC4BA00381102 /* param.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = param.h; sourceTree = "<group>"; };
-		F56F04761CFFDA3300381102 /* influence.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = influence.c; sourceTree = "<group>"; };
-		F56F04771CFFDA3300381102 /* influence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = influence.h; sourceTree = "<group>"; };
 		F57491691CEDE388001387E9 /* pso.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pso.c; sourceTree = "<group>"; };
 		F574916A1CEDE388001387E9 /* pso.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pso.h; sourceTree = "<group>"; };
 		F5EADD171CFD797100491356 /* random.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = random.c; sourceTree = "<group>"; };
@@ -78,8 +75,6 @@
 				F56F04721CFFC38300381102 /* node.c */,
 				F56F04731CFFC38300381102 /* node.h */,
 				F56F04751CFFC4BA00381102 /* param.h */,
-				F56F04761CFFDA3300381102 /* influence.c */,
-				F56F04771CFFDA3300381102 /* influence.h */,
 			);
 			path = myproject;
 			sourceTree = "<group>";
@@ -144,7 +139,6 @@
 				F56F04741CFFC38300381102 /* node.c in Sources */,
 				F5EADD191CFD797100491356 /* random.c in Sources */,
 				F53FE8411CEAA03A00FBFB34 /* main.c in Sources */,
-				F56F04781CFFDA3300381102 /* influence.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
